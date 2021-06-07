@@ -16,7 +16,8 @@ namespace QuizScoreBoard
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new StartGame());
+            ScoreBoard scoreBoard = new();
+            Application.Run(scoreBoard);
         }
     }
 }

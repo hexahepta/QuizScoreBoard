@@ -8,12 +8,14 @@ using System.Text.Json;
 
 namespace QuizScoreBoard.src
 {
-    class Game
+    public class Game
     {
-        private readonly Dictionary<String, Player> players = new Dictionary<string, Player>();
+        private readonly Dictionary<String, Player> players = new();
         private readonly int correct_answer_points = Properties.Settings.Default.correct_answer_points;
         private readonly int wrong_answer_points = Properties.Settings.Default.wrong_answer_points;
         private readonly String fileName = Properties.Settings.Default.save_file_name;
+
+        public Dictionary<string, Player> Players => players;
 
         public Game(Dictionary<String, Player> players)
         {
@@ -45,7 +47,7 @@ namespace QuizScoreBoard.src
 
         public void wrongAnswerAddPoints(Player currentPlayer)
         {
-            foreach(Player player in players.Values)
+            foreach(Player player in Players.Values)
             {
                 if (!player.Equals(currentPlayer))
                 {
