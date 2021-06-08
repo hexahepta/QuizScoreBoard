@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using QuizScoreBoard.src;
 using System.Windows.Forms;
 
 namespace QuizScoreBoard
@@ -16,7 +17,7 @@ namespace QuizScoreBoard
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            ScoreBoard scoreBoard = new();
+            ScoreBoard scoreBoard = new(Game.Load());
             Application.Run(scoreBoard);
         }
     }

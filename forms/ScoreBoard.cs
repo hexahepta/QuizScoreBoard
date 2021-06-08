@@ -16,6 +16,7 @@ namespace QuizScoreBoard
         private const int CORRECT_ANSWER_COLUMN = 0;
         private const int SCORE_COLUMN = 1;
         private const int WRONG_ANSWER_COLUMN = 2;
+        private const int MARKER_CHECK_BOX_COLUMN = 3;
 
         private Game game;
         private readonly Dictionary<string, PlayerScoreElements> playerScoreElementsList = new();
@@ -25,9 +26,14 @@ namespace QuizScoreBoard
             InitializeComponent();
         }
 
-        public ScoreBoard(Dictionary<string, Player> players) :this()
+        public ScoreBoard(Dictionary<string, Player> players) : this()
         {
             this.Game = new Game(players);
+        }
+
+        public ScoreBoard(Game game) : this()
+        {
+            this.Game = game;
         }
 
         public Game Game { 
@@ -41,6 +47,7 @@ namespace QuizScoreBoard
 
         private void addPlayersToBoard()
         {
+            cleanPlayerTable();
             this.playerTableLayoutPanel.RowCount = Game.Players.Count;
 
             int counter = 0;
@@ -51,6 +58,16 @@ namespace QuizScoreBoard
             }
         }
 
+        private void cleanPlayerTable()
+        {
+            foreach (Control control in this.playerTableLayoutPanel.Controls)
+            {
+                control.Dispose();
+            }
+            this.playerTableLayoutPanel.Controls.Clear();
+            this.playerScoreElementsList.Clear();
+        }
+
         private void addPlayerToBoard(Player player, int rowNumber)
         {
             this.playerTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -59,6 +76,7 @@ namespace QuizScoreBoard
             this.playerTableLayoutPanel.Controls.Add(playerScoreElements.CorrectAnswerButton, CORRECT_ANSWER_COLUMN, rowNumber);
             this.playerTableLayoutPanel.Controls.Add(playerScoreElements.ScoreTextBox, SCORE_COLUMN, rowNumber);
             this.playerTableLayoutPanel.Controls.Add(playerScoreElements.WrongAnswerButton, WRONG_ANSWER_COLUMN, rowNumber);
+            this.playerTableLayoutPanel.Controls.Add(playerScoreElements.MarkerCheckBox, MARKER_CHECK_BOX_COLUMN, rowNumber);
         }
 
         private void ScoreBoard_Load(object sender, EventArgs e)
@@ -75,12 +93,31 @@ namespace QuizScoreBoard
             private const string WRONG_BUTTON_TEXT = "Falsche Antwort!";
             private readonly string playerName;
             private readonly Game game;
+            private Player currentPlayer;
+
+            private Player CurrentPlayer
+            {
+                get
+                {
+                    if (null == currentPlayer)
+                    {
+                        currentPlayer = getCurrentPlayer();
+                    }
+                    return currentPlayer;
+                }
+                set
+                {
+                    currentPlayer = value;
+                }
+            }
 
             public Button CorrectAnswerButton { get; private set; }
 
             public TextBox ScoreTextBox { get; private set; }
 
             public Button WrongAnswerButton { get; private set; }
+
+            public CheckBox MarkerCheckBox { get; private set; }
 
             public PlayerScoreElements(string playerName, Game game)
             {
@@ -89,13 +126,21 @@ namespace QuizScoreBoard
                 createCorrectAnswerButton();
                 createScoreTextBox();
                 createWrongAnswerButton();
+                createMarkerCheckBox();
             }
+
             private PlayerScoreElements(Button correctAnswerButton, TextBox scoreTextBox, Button wrongAnswerButton, Game game)
             {
                 this.CorrectAnswerButton = correctAnswerButton;
                 this.ScoreTextBox = scoreTextBox;
                 this.WrongAnswerButton = wrongAnswerButton;
+                createMarkerCheckBox();
                 this.game = game;
+            }
+
+            public void refreshScore()
+            {
+                ScoreTextBox.Text = currentPlayer.Points.ToString();
             }
 
             private void createScoreTextBox()
@@ -104,6 +149,7 @@ namespace QuizScoreBoard
                 ScoreTextBox.Name = playerName + "ScoreTextBox";
                 ScoreTextBox.Text = "0";
                 ScoreTextBox.AutoSize = true;
+                ScoreTextBox.DataBindings.Add(new Binding("Text", CurrentPlayer, "Points"));
                 ScoreTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.scoreTextBoxTextBox_KeyPress);
             }
 
@@ -113,6 +159,7 @@ namespace QuizScoreBoard
                 CorrectAnswerButton.Name = playerName + "CorrectButton";
                 CorrectAnswerButton.Text = playerName;
                 CorrectAnswerButton.AutoSize = true;
+                CorrectAnswerButton.Click += new System.EventHandler(this.correctAnswerButton_Click);
             }
 
             private void createWrongAnswerButton()
@@ -121,20 +168,42 @@ namespace QuizScoreBoard
                 WrongAnswerButton.Name = playerName + "WrongButton";
                 WrongAnswerButton.Text = WRONG_BUTTON_TEXT;
                 WrongAnswerButton.AutoSize = true;
+                WrongAnswerButton.Click += new System.EventHandler(this.wrongAnswerButton_Click);
+            }
+
+            private void createMarkerCheckBox()
+            {
+                MarkerCheckBox = new();
+                MarkerCheckBox.Name = playerName + "CheckBox";
             }
 
             private void scoreTextBoxTextBox_KeyPress(object sender, KeyPressEventArgs e)
             {
                 if (e.KeyChar == ((char)Keys.Enter))
                 {
-                    Player currentPlayer;
-                    game.Players.TryGetValue(playerName, out currentPlayer);
                     int points;
                     if (int.TryParse(ScoreTextBox.Text, out points))
                     {
-                        currentPlayer.Points = points;
+                        CurrentPlayer.Points = points;
                     }
                 }
+            }
+
+            private void correctAnswerButton_Click(object sender, EventArgs e)
+            {
+                game.addPoints(CurrentPlayer, true);
+            }
+
+            private void wrongAnswerButton_Click(object sender, EventArgs e)
+            {
+                game.addPoints(CurrentPlayer, false);
+            }
+
+            private Player getCurrentPlayer()
+            {
+                Player currentPlayer;
+                game.Players.TryGetValue(playerName, out currentPlayer);
+                return currentPlayer;
             }
         }
 

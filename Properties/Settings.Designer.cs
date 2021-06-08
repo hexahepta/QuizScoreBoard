@@ -49,7 +49,7 @@ namespace QuizScoreBoard.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("save")]
         public string save_file_name {
             get {
                 return ((string)(this["save_file_name"]));

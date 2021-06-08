@@ -42,7 +42,8 @@ namespace QuizScoreBoard
             // 
             this.playerTableLayoutPanel.AutoSize = true;
             this.playerTableLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.playerTableLayoutPanel.ColumnCount = 3;
+            this.playerTableLayoutPanel.ColumnCount = 4;
+            this.playerTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.playerTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.playerTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.playerTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());

@@ -13,7 +13,7 @@ namespace QuizScoreBoard.src
         private readonly Dictionary<String, Player> players = new();
         private readonly int correct_answer_points = Properties.Settings.Default.correct_answer_points;
         private readonly int wrong_answer_points = Properties.Settings.Default.wrong_answer_points;
-        private readonly String fileName = Properties.Settings.Default.save_file_name;
+        private static readonly String fileName = Properties.Settings.Default.save_file_name;
 
         public Dictionary<string, Player> Players => players;
 
@@ -58,10 +58,19 @@ namespace QuizScoreBoard.src
 
         public void save()
         {
-            //TODO fix copied from https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-how-to?pivots=dotnet-5-0
+            //as seen in https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-how-to?pivots=dotnet-5-0
             string jsonString = JsonSerializer.Serialize(this);
-            File.WriteAllText(fileName, jsonString);
+            File.WriteAllText(fileName + ".json", jsonString);
+        }
 
+        public static Game Load()
+        {
+            //as seen in https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-how-to?pivots=dotnet-5-0
+            
+            string fileName = Game.fileName + ".json";
+            string jsonString = File.ReadAllText(fileName);
+            Game game = JsonSerializer.Deserialize<Game>(jsonString);
+            return game;
         }
     }
 }
