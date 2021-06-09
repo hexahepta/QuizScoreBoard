@@ -58,17 +58,5 @@ namespace QuizScoreBoard.Properties {
                 this["save_file_name"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string save_file_path {
-            get {
-                return ((string)(this["save_file_path"]));
-            }
-            set {
-                this["save_file_path"] = value;
-            }
-        }
     }
 }

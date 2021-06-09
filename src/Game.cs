@@ -10,20 +10,22 @@ namespace QuizScoreBoard.src
 {
     public class Game
     {
-        private readonly Dictionary<String, Player> players = new();
+        private Dictionary<string, Player> players = new();
         private readonly int correct_answer_points = Properties.Settings.Default.correct_answer_points;
         private readonly int wrong_answer_points = Properties.Settings.Default.wrong_answer_points;
         private static readonly String fileName = Properties.Settings.Default.save_file_name;
+        private readonly Stack<Dictionary<string, Player>> states = new();
 
-        public Dictionary<string, Player> Players => players;
+        public Dictionary<string, Player> Players { get => players; set => players = value; }
 
         public Game(Dictionary<String, Player> players)
         {
-            this.players = players;
+            this.Players = players;
         }
 
         public void addPoints(Player player, bool correctAnswer)
         {
+            saveState();
             if (correctAnswer)
             {
                 correctAnswerAddPoints(player);
@@ -36,6 +38,7 @@ namespace QuizScoreBoard.src
 
         public void setPoints(Player player, int points)
         {
+            saveState();
             player.Points = points;
             save();
         }
@@ -71,6 +74,30 @@ namespace QuizScoreBoard.src
             string jsonString = File.ReadAllText(fileName);
             Game game = JsonSerializer.Deserialize<Game>(jsonString);
             return game;
+        }
+
+        public void undo()
+        {
+            if (0 < this.states.Count)
+            {
+                this.Players = this.states.Pop();
+            }
+        }
+
+        private void saveState()
+        {
+            Dictionary<string, Player> lastPlayersState = new();
+
+            foreach (string playerName in this.Players.Keys)
+            {
+                Player toCopy;
+                if (this.Players.TryGetValue(playerName, out toCopy))
+                {
+                    Player copyOfPlayer = new(toCopy);
+                    lastPlayersState.Add(playerName, copyOfPlayer);
+                }
+            }
+            this.states.Push(lastPlayersState);
         }
     }
 }

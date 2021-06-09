@@ -34,6 +34,12 @@ namespace QuizScoreBoard.src
             this.Points = points;
         }
 
+        public Player(Player toCopy)
+        {
+            this.name = toCopy.Name;
+            this.Points = toCopy.Points;
+        }
+
         public Player(String name) : this(name, 0) { }
 
         public void addPoints(int points)

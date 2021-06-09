@@ -31,7 +31,7 @@ namespace QuizScoreBoard
         {
             this.playerTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.newGameButton = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.undoButton = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel1.SuspendLayout();
@@ -68,15 +68,16 @@ namespace QuizScoreBoard
             this.newGameButton.UseVisualStyleBackColor = true;
             this.newGameButton.Click += new System.EventHandler(this.newGameButton_Click);
             // 
-            // button2
+            // undoButton
             // 
-            this.button2.Location = new System.Drawing.Point(100, 3);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(88, 27);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Save";
-            this.button2.UseVisualStyleBackColor = true;
+            this.undoButton.Location = new System.Drawing.Point(100, 3);
+            this.undoButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.undoButton.Name = "undoButton";
+            this.undoButton.Size = new System.Drawing.Size(88, 27);
+            this.undoButton.TabIndex = 2;
+            this.undoButton.Text = "Undo";
+            this.undoButton.UseVisualStyleBackColor = true;
+            this.undoButton.Click += new System.EventHandler(this.undoButton_Click);
             // 
             // flowLayoutPanel1
             // 
@@ -95,7 +96,7 @@ namespace QuizScoreBoard
             this.flowLayoutPanel2.AutoSize = true;
             this.flowLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel2.Controls.Add(this.newGameButton);
-            this.flowLayoutPanel2.Controls.Add(this.button2);
+            this.flowLayoutPanel2.Controls.Add(this.undoButton);
             this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 9);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(192, 33);
@@ -125,7 +126,7 @@ namespace QuizScoreBoard
 
         private System.Windows.Forms.TableLayoutPanel playerTableLayoutPanel;
         private System.Windows.Forms.Button newGameButton;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button undoButton;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
     }

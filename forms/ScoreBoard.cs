@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Windows.Forms;
 using QuizScoreBoard.src;
 
@@ -20,6 +21,7 @@ namespace QuizScoreBoard
 
         private Game game;
         private readonly Dictionary<string, PlayerScoreElements> playerScoreElementsList = new();
+        private bool isLastCtrl = false;
 
         public ScoreBoard()
         {
@@ -86,6 +88,21 @@ namespace QuizScoreBoard
             startGame.Show();
         }
 
+        private void newGameButton_Click(object sender, EventArgs e)
+        {
+            this.Enabled = false;
+            NewGame newGame = new(this);
+            newGame.Show();
+        }
+
+        private void undoButton_Click(object sender, EventArgs e)
+        {
+            this.game.undo();
+            foreach (PlayerScoreElements playerScoreElements in playerScoreElementsList.Values)
+            {
+                playerScoreElements.reloadCurrentPlayer();
+            }
+        }
 
         private class PlayerScoreElements
         {
@@ -138,9 +155,11 @@ namespace QuizScoreBoard
                 this.game = game;
             }
 
-            public void refreshScore()
+            public void reloadCurrentPlayer()
             {
-                ScoreTextBox.Text = currentPlayer.Points.ToString();
+                CurrentPlayer = null;
+                ScoreTextBox.DataBindings.Clear();
+                ScoreTextBox.DataBindings.Add("Text", CurrentPlayer, "Points");
             }
 
             private void createScoreTextBox()
@@ -205,13 +224,6 @@ namespace QuizScoreBoard
                 game.Players.TryGetValue(playerName, out currentPlayer);
                 return currentPlayer;
             }
-        }
-
-        private void newGameButton_Click(object sender, EventArgs e)
-        {
-            this.Enabled = false;
-            NewGame newGame = new(this);
-            newGame.Show();
         }
     }
 }
