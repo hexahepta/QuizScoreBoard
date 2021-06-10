@@ -32,9 +32,13 @@ namespace QuizScoreBoard
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void deletePlayerButton_Click(object sender, EventArgs e)
         {
-
+            foreach (ListViewItem player in this.playerList.SelectedItems)
+            {
+                this.players.Remove(player.Text);
+                this.playerList.Items.Remove(player);
+            }
         }
 
         private void AddPlayerButton_Click(object sender, EventArgs e)

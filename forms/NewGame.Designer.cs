@@ -33,7 +33,7 @@ namespace QuizScoreBoard
             this.addPlayerNameTextBox = new System.Windows.Forms.TextBox();
             this.playerList = new System.Windows.Forms.ListView();
             this.playerNames = new System.Windows.Forms.ColumnHeader();
-            this.deletePlayerButton1 = new System.Windows.Forms.Button();
+            this.deletePlayerButton = new System.Windows.Forms.Button();
             this.enterPlayerNameLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.startGameButton = new System.Windows.Forms.Button();
@@ -72,16 +72,16 @@ namespace QuizScoreBoard
             this.playerList.UseCompatibleStateImageBehavior = false;
             this.playerList.View = System.Windows.Forms.View.List;
             // 
-            // deletePlayerButton1
+            // deletePlayerButton
             // 
-            this.deletePlayerButton1.Location = new System.Drawing.Point(430, 171);
-            this.deletePlayerButton1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.deletePlayerButton1.Name = "deletePlayerButton1";
-            this.deletePlayerButton1.Size = new System.Drawing.Size(98, 27);
-            this.deletePlayerButton1.TabIndex = 3;
-            this.deletePlayerButton1.Text = "Löschen";
-            this.deletePlayerButton1.UseVisualStyleBackColor = true;
-            this.deletePlayerButton1.Click += new System.EventHandler(this.button2_Click);
+            this.deletePlayerButton.Location = new System.Drawing.Point(430, 171);
+            this.deletePlayerButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.deletePlayerButton.Name = "deletePlayerButton";
+            this.deletePlayerButton.Size = new System.Drawing.Size(98, 27);
+            this.deletePlayerButton.TabIndex = 3;
+            this.deletePlayerButton.Text = "Löschen";
+            this.deletePlayerButton.UseVisualStyleBackColor = true;
+            this.deletePlayerButton.Click += new System.EventHandler(this.deletePlayerButton_Click);
             // 
             // enterPlayerNameLabel
             // 
@@ -123,7 +123,7 @@ namespace QuizScoreBoard
             this.Controls.Add(this.startGameButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.enterPlayerNameLabel);
-            this.Controls.Add(this.deletePlayerButton1);
+            this.Controls.Add(this.deletePlayerButton);
             this.Controls.Add(this.playerList);
             this.Controls.Add(this.addPlayerNameTextBox);
             this.Controls.Add(this.addPlayerButton);
@@ -141,7 +141,7 @@ namespace QuizScoreBoard
         private System.Windows.Forms.Button addPlayerButton;
         private System.Windows.Forms.TextBox addPlayerNameTextBox;
         private System.Windows.Forms.ListView playerList;
-        private System.Windows.Forms.Button deletePlayerButton1;
+        private System.Windows.Forms.Button deletePlayerButton;
         private System.Windows.Forms.Label enterPlayerNameLabel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button startGameButton;
