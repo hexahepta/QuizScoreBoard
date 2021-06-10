@@ -17,7 +17,12 @@ namespace QuizScoreBoard
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            ScoreBoard scoreBoard = new(Game.Load());
+            Game game = Game.Load();
+            if (null == game)
+            {
+                game = new(new Dictionary<string, Player>());
+            }
+            ScoreBoard scoreBoard = new(game);
             Application.Run(scoreBoard);
         }
     }

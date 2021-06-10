@@ -71,8 +71,15 @@ namespace QuizScoreBoard.src
             //as seen in https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-how-to?pivots=dotnet-5-0
             
             string fileName = Game.fileName + ".json";
-            string jsonString = File.ReadAllText(fileName);
-            Game game = JsonSerializer.Deserialize<Game>(jsonString);
+            Game game;
+            try
+            {
+                string jsonString = File.ReadAllText(fileName);
+                game = JsonSerializer.Deserialize<Game>(jsonString);
+            } catch (FileNotFoundException fNFE)
+            {
+                game = null;
+            }
             return game;
         }
 
@@ -82,6 +89,7 @@ namespace QuizScoreBoard.src
             {
                 this.Players = this.states.Pop();
             }
+            save();
         }
 
         private void saveState()
